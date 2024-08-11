@@ -20,3 +20,10 @@ class SignupRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username', 'password', 'nickname']
+
+class LoginRequestSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=50)
+    password = serializers.CharField(write_only=True)
+
+class LoginResponseSerializer(serializers.Serializer):
+    token = serializers.CharField()

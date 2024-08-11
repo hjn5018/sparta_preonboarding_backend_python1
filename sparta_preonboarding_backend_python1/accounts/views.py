@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
-from .serializers import SignupRequestSerializer, SignupResponseSerializer
+from .serializers import LoginRequestSerializer, LoginResponseSerializer, SignupRequestSerializer, SignupResponseSerializer
 from .models import Role, UserRole
 from drf_spectacular.utils import extend_schema
 
@@ -29,6 +29,10 @@ class SignupAPIView(APIView):
     
 
 class LoginAPIView(APIView):
+    @extend_schema(
+            request=LoginRequestSerializer,
+            responses={status.HTTP_200_OK: LoginResponseSerializer}
+    )
     def post(self, request):
         data = request.data
         username = data.get('username')
