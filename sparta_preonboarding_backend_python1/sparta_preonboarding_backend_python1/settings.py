@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     # External Apps
     'rest_framework',
     'drf_spectacular',
+    'rest_framework_simplejwt',
     # Internal Apps
     'accounts',
 ]
@@ -125,8 +126,18 @@ AUTH_USER_MODEL = 'accounts.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework_simplejwt.authentication.JWTAuthentication',),
 }
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'sparta_preonboarding_backend_python1',
+}
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
 }
