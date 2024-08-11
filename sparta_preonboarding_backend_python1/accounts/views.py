@@ -4,12 +4,15 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
-from .serializers import UserSerializer
+from .serializers import SignupRequestSerializer, SignupResponseSerializer
 from .models import Role, UserRole
 from drf_spectacular.utils import extend_schema
 
 class SignupAPIView(APIView):
-    @extend_schema(responses=UserSerializer)
+    @extend_schema(
+            request=SignupRequestSerializer,
+            responses={status.HTTP_201_CREATED: SignupResponseSerializer}
+    )
     def post(self, request):
         data = request.data
         user = get_user_model().objects.create_user(
@@ -21,7 +24,7 @@ class SignupAPIView(APIView):
         default_role, created = Role.objects.get_or_create(role='USER')
         UserRole.objects.create(user=user, role=default_role)
 
-        serializer = UserSerializer(user)
+        serializer = SignupResponseSerializer(user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
 
