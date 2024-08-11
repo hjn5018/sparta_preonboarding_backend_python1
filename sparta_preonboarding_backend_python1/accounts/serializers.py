@@ -1,3 +1,4 @@
+from typing import Any, Dict, List
 from rest_framework import serializers
 
 from .models import User, UserRole
@@ -9,6 +10,6 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['username', 'nickname', 'roles']
     
-    def get_roles(self, obj):
+    def get_roles(self, obj: Any) -> List[Dict[str, str]]:
         roles = UserRole.objects.filter(user=obj)
         return [{'role': role.role.role} for role in roles]
