@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    nickname = models.CharField(max_length=50)
+    nickname = models.CharField(max_length=50, null=False, blank=False)
 
 class Role(models.Model):
     role = models.CharField(max_length=30, unique=True)
